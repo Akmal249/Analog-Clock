@@ -1,0 +1,131 @@
+:root {
+    --primary-color: #222;
+    --white: #faf;
+    --black: #000;
+    --red: #e74c3c;
+}
+
+@property --angle {
+	syntax: "<angle>";
+	initial-value: 0deg;
+	inherits: false;
+}
+
+@keyframes rotates {
+	to { --angle: -360deg; }
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: var(--primary-color);
+    font-family: "Chivo Mono", serif;
+    font-style: normal;
+    transform: scale(0.9);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+}
+
+.container .clock {
+    display: flex;
+    width: 390px;
+    height: 390px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    background: var(--black);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1), 0 25px 45px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.container::before {
+	content: "";
+	position: absolute;
+	width: 400px;
+	height: 400px;
+	background: conic-gradient(from var(--angle), purple, var(--red), magenta, purple);
+	border-radius: 50%;
+	animation: rotates 3s linear infinite;
+}
+
+.clock label {
+    position: absolute;
+    inset: 20px;
+    text-align: center;
+    transform: rotate(calc(var(--i) * (360deg / 12)));
+}
+
+.clock label span {
+    display: inline-block;
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--white);
+    transform: rotate(calc(var(--i) * (-360deg / 12)));
+}
+
+.container .indicator {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.indicator::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background: var(--primary-color);
+    z-index: 100;
+    border: 4px solid red;
+}
+
+.indicator .hand {
+    position: absolute;
+    height: 130px;
+    width: 4px;
+    bottom: 0;
+    border-radius: 25px;
+    transform-origin: bottom;
+    background: var(--red);
+}
+
+.hand.minute {
+    height: 120px;
+    width: 5px;
+    background: var(--white);
+}
+
+.hand.hour {
+    height: 100px;
+    width: 8px;
+    background: var(--white);
+}
+
+.author {
+	position: absolute;
+	width: 80px;
+	height: 40px;
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150"><path fill="none" stroke="%23FF1A6F" stroke-width="18" stroke-linecap="round" stroke-dasharray="300 385" stroke-dashoffset="0" d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"><animate attributeName="stroke-dashoffset" calcMode="spline" dur="4" values="685;-685" keySplines="0 0 1 1" repeatCount="indefinite"></animate></path></svg>');
+	bottom: 25%;
+}
+
+.author::after {
+	content: "©Limitless Studio";
+	width: 100%;
+	position: absolute;
+	bottom: -10px;
+	font-size: 2pt;
+	text-align: center;
+}
